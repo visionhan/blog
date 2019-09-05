@@ -1,7 +1,7 @@
 # blog
 A personal blog
 - npm install 
-### redis
+
 
 ```js
 html-test 中 
@@ -9,6 +9,7 @@ npm install http-server -g  --registry=https://registry.npm.taobao.org
 http-server -p 8001
 
 ```
+### nginx
 把 前端8001 与8000 公共代理到 8080  nginx 性能高 做静态服务 **（反向代理）**
 
 测试配置文件格式是否正确nginx -t
