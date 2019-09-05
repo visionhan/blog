@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+    <script src="./bootstrap/js/jq.js"></script>
+    <script src="./bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.css">
+    <style type="text/css">
+      
+        a {
+            text-decoration-line: none;
+        }
+
+        .navbar .navbar-header{
+            position: absolute;
+            left: 50px;
+        }
+        .navbar .navbar-header a{
+            color: aliceblue;
+        }
+    .navbar .btn{
+        position: absolute;
+        right: 30px;
+        
+    }
+    .navbar .btn a {
+        text-decoration: none;
+        color: #9d9d9d;
+    }
+    .page-header .search{
+        position: absolute;
+        right: 55px;
+    }
+
+    </style>
+</head>
+<body>
+
+        <nav class="navbar navbar-inverse">
+                <div class="navbar-header">
+                     
+                        <a class="navbar-brand " href="#">个人博客🥥🍍</a>
+                        
+                      </div>
+            
+                      <button type="button" class="btn btn-default navbar-btn"><a href="/admin.html">添加博客🤥</a></button>         
+              </nav>
+    <div class="container">
+            <div class="page-header">
+                  
+                    <h1>博客首页 <small style="font-size: 14px;"> 一个小菜鸟的知识积累博客,前端工程🦁进化中 ...  </small></h1>
+                   
+                  </div>
+            <ul class="list-group" id="blog-container" >
+                    
+            
+                  </ul>
+    </div>
+    <!-- <h1>博客首页</h1>
+    <div id="blog-container"></div> -->
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.23.0/moment.min.js"></script>
+    <script src="https://cdn.bootcss.com/moment.js/2.23.0/locale/zh-cn.js"></script>
+    <script>
+        // 发送 get 请求
+        function get(url) {
+            return $.get(url)
+        }
+
+        // 显示格式化的时间
+        function getFormatDate(dt) {
+            return moment(dt).format('LL')
+        }
+
+        // 获取 url 参数
+        function getUrlParams() {
+            let paramStr = location.href.split('?')[1] || ''
+            paramStr = paramStr.split('#')[0]
+            const result = {}
+            paramStr.split('&').forEach(itemStr => {
+                const arr = itemStr.split('=')
+                const key = arr[0]
+                const val = arr[1]
+                result[key] = val
+            })
+            return result
+        }
+
+        // 获取 dom 元素
+        const $container = $('#blog-container')
+
+        // 拼接接口 url
+        let url = '/api/blog/list'
+        const urlParams = getUrlParams()
+        if (urlParams.author) {
+            url += '?author=' + urlParams.author
+        }
+
+        // 加载数据
+        get(url).then((res) => {
+            if (res.errno !== 0) {
+                alert('数据错误')
+                return
+            }
+
+            // 遍历博客列表，并显示
+            const data = res.data || []
+            data.forEach(item => {
+                $container.append($(`
+                    <li class="list-group-item">
+                        <p class="title">
+                        <a href="/detail.html?id=${item.id}" target="_blank">${item.title}</a>
+                        </p>
+                        <div class="info-wrapper">
+                            <span>
+                                <a href="/loginindex.html?author=${item.author}">🌌${item.author}</a>
+                            </span>
+                            <span>${getFormatDate(item.createtime)}</span>
+                        </div>
+                    </li>
+                `))
+            })
+        })
+    </script>
+</body>
+</html>
